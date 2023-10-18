@@ -1,4 +1,4 @@
-%Última edição: Ricardo - 2023/10/15 23:00:
+%Última edição: Ricardo - 2023/10/17 21:22:
 clear
 NA = 1;
 
@@ -101,5 +101,22 @@ Y(11,10) = Y(10,11);
 
 %Matriz Zbarra
 Z = Y^-1;
+%Tensões pré-falta em referenciadas a barra 1.
+Vpre_b1 = zeros(11,1);
+Vpre_b1(1) = pol(1.0380, 11.7008);
+Vpre_b1(2) = pol(1.0195, 12.0656);
+Vpre_b1(3) = pol(1.0265, 32.2270);
+Vpre_b1(4) = pol(0.9813, 21.2785);
+Vpre_b1(5) = pol(0.9792, 20.2045);
+Vpre_b1(6) = pol(0.9738, 14.1765);
+Vpre_b1(7) = pol(0.9953, 12.1878);
+Vpre_b1(8) = pol(0.9954, 12.1870);
+Vpre_b1(9) = pol(0.9604, 13.7159);
+Vpre_b1(10) = pol(0.9604, 13.7135);
+Vpre_b1(11) = pol(0.9578, 12.3971);
 
+%Cálculos relativo ao curto-circuito trifásico na barra da SE4.
 
+%Cálculos relativo ao curto-circuito trifásico na barra da SE9.
+
+%Cálculos relativo ao curto-circuito trifásico na barra da SE11.
