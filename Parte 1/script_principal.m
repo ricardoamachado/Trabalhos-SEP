@@ -115,8 +115,25 @@ Vpre_b1(9) = pol(0.9604, 13.7159);
 Vpre_b1(10) = pol(0.9604, 13.7135);
 Vpre_b1(11) = pol(0.9578, 12.3971);
 
+%Resistências de falta
+Rf_a = 0.264/Zb1;
+Rf_b = 0.388/Zb2;
+Rf_c = 0.172/Zb3;
+
 %Cálculos relativo ao curto-circuito trifásico na barra da SE4.
+If_se4 = Vpre_b1(4)/(Z(4,4)+Rf_a);
+##printPolar(If_se4);
+#Sufixo b1 -> referenciadas a barra 1
+Vpos_se4_b1 = Vpre_b1 - If_se4*Z(:,4);
+fprintf("Curto na barra SE4\n")
+printPolar(Vpos_se4_b1);
+
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE9.
-
+If_se9 = Vpre_b1(9)/(Z(9,9)+Rf_b);
+Vpos_se9_b1 = Vpre_b1 - If_se9*Z(:,9);
+fprintf("Curto na barra SE9\n")
+printPolar(Vpos_se9_b1);
 %Cálculos relativo ao curto-circuito trifásico na barra da SE11.
+If_se11 = Vpre_b1(11)/(Z(11,11)+Rf_b);
+
