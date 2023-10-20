@@ -1,4 +1,5 @@
-%Última edição: Ricardo - 2023/10/17 21:22:
+%Última edição: Ricardo - 2023/10/20 15:32:
+clc;
 clear
 NA = 1;
 
@@ -127,13 +128,16 @@ If_se4 = Vpre_b1(4)/(Z(4,4)+Rf_a);
 Vpos_se4_b1 = Vpre_b1 - If_se4*Z(:,4);
 fprintf("Curto na barra SE4\n")
 printPolar(Vpos_se4_b1);
-
-
+I_lt02c1 = (Vpos_se4_b1(1) - Vpos_se4_b1(2))/Z1_lt02c1;
+fprintf("Corrente em lt02c1\n")
+printPolar(I_lt02c1*Ib1);
 %Cálculos relativo ao curto-circuito trifásico na barra da SE9.
 If_se9 = Vpre_b1(9)/(Z(9,9)+Rf_b);
 Vpos_se9_b1 = Vpre_b1 - If_se9*Z(:,9);
 fprintf("Curto na barra SE9\n")
 printPolar(Vpos_se9_b1);
 %Cálculos relativo ao curto-circuito trifásico na barra da SE11.
-If_se11 = Vpre_b1(11)/(Z(11,11)+Rf_b);
-
+If_se11 = Vpre_b1(11)/(Z(11,11)+Rf_c);
+Vpos_se11_b1 = Vpre_b1 - If_se11*Z(:,11);
+fprintf("Curto na barra SE11\n")
+printPolar(Vpos_se11_b1);
