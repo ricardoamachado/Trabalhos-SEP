@@ -1,4 +1,4 @@
-%Última edição: Ricardo - 2023/10/20 15:32:
+%Última edição: Ricardo - 2023/10/21 15:14:
 clc;
 clear
 NA = 1;
@@ -130,10 +130,15 @@ printPolar(Vpos_se4_b1);
 %Defasar as tensões para as referências corretas.
 Defasagem_b1 = [1;1;1;1;pol(1,-30);pol(1,-30);pol(1,-30);1;pol(1,-30);pol(1,-60);pol(1,-60)];
 Vpos_se4_defasado = Vpos_se4_b1 .* Defasagem_b1;
-%Correntes pós-falta:
+fprintf("Curto na barra SE4\n")
+printPolar(Vpos_se4_defasado);
 I_lt02c1 = (Vpos_se4_b1(1) - Vpos_se4_b1(2))/Z1_lt02c1;
+I_tr01t1 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Zps;
+I_tr01t1 = I_tr01t1*pol(1,-30);
 fprintf("Corrente em lt02c1\n")
 printPolar(I_lt02c1*Ib1);
+fprintf("Corrente em tr01t1\n")
+printPolar(I_tr01t1*Ib2);
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE9.
 If_se9 = Vpre_b1(9)/(Z(9,9)+Rf_b);
