@@ -1,4 +1,4 @@
-%Última edição: Ricardo - 2023/10/21 16:00:
+%Última edição: Ricardo - 2023/10/21 22:01:
 clc;
 clear
 NA = 1;
@@ -128,19 +128,32 @@ Rf_b = 0.388/Zb2;
 Rf_c = 0.172/Zb3;
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE4.
-If_se4 = Vpre_b1(4)/(Z(4,4)+Rf_a);
 %Sufixo b1 -> referenciadas a barra 1, pois é a mesma ref. de fase da barra 4.
+If_se4 = Vpre_b1(4)/(Z(4,4)+Rf_a);
 Vpos_se4_b1 = Vpre_b1 - If_se4*Z(:,4);
 fprintf("Curto na barra SE4\n")
 printPolar(Vpos_se4_b1);
 Vpos_se4_defasado = Vpos_se4_b1 .* Defasagem_b1;
-I_lt02c1 = (Vpos_se4_b1(1) - Vpos_se4_b1(2))/Z1_lt02c1;
-I_tr01t1 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Zps;
-I_tr01t1 = I_tr01t1*pol(1,-30);
+%Cálculo da correntes circunvizinhas à barra 4.
+I_lt02c1_se4 = (Vpos_se4_b1(1) - Vpos_se4_b1(2))/Z1_lt02c1;
+I_lt03c1_se4 = (Vpos_se4_b1(2) - Vpos_se4_b1(4))/Z1_lt03c1;
+I_lt01c1_se4 = (Vpos_se4_b1(3) - Vpos_se4_b1(4))/Z1_lt01c1;
+I_lt01c2_se4 = (Vpos_se4_b1(3) - Vpos_se4_b1(4))/Z1_lt01c2;
+I_tr01t1_se4 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Zps;
+I_tr01t2_se4 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Z_tr01t2;
 fprintf("Corrente em lt02c1\n")
-printPolar(I_lt02c1*Ib1);
+printPolar(I_lt02c1_se4*Ib1);
+fprintf("Corrente em lt03c1\n")
+printPolar(I_lt03c1_se4*Ib1);
+fprintf("Corrente em lt01c1\n")
+printPolar(I_lt01c1_se4*Ib1);
+fprintf("Corrente em lt01c2\n")
+printPolar(I_lt01c2_se4*Ib1);
 fprintf("Corrente em tr01t1\n")
-printPolar(I_tr01t1*Ib2);
+printPolar(I_tr01t1_se4*Ib1);
+fprintf("Corrente em tr01t2\n")
+printPolar(I_tr01t2_se4*Ib1);
+
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE9.
 If_se9 = Vpre_b9(9)/(Z(9,9)+Rf_b);
@@ -148,6 +161,7 @@ Vpos_se9_b9 = Vpre_b9 - If_se9*Z(:,9);
 Vpos_se9_defasado = Vpos_se9_b9 .* Defasagem_b9;
 fprintf("Curto na barra SE9\n")
 printPolar(Vpos_se9_defasado);
+
 %Cálculos relativo ao curto-circuito trifásico na barra da SE11.
 If_se11 = Vpre_b11(11)/(Z(11,11)+Rf_c);
 Vpos_se11_b11 = Vpre_b11 - If_se11*Z(:,11);
