@@ -1,6 +1,9 @@
 %Última edição: Ricardo - 2023/10/21 22:01:
 clc;
-clear
+clear;
+%Exportar saída texto - Retirar do código final;
+diary on;        
+diary('Valores.txt')
 NA = 1;
 
 %Bases pu
@@ -102,6 +105,7 @@ Y(11,10) = Y(10,11);
 
 %Matriz Zbarra
 Z = Y^-1;
+
 %Tensões pré-falta em referenciadas a barra 1.
 Vpre_b1 = zeros(11,1);
 Vpre_b1(1) = pol(1.0380, 11.7008);
@@ -122,6 +126,8 @@ Vpre_b11 = Vpre_b1*pol(1,-60);
 Defasagem_b1 = [1;1;1;1;pol(1,-30);pol(1,-30);pol(1,-30);1;pol(1,-30);pol(1,-60);pol(1,-60)];
 Defasagem_b9 = [pol(1,30);pol(1,30);pol(1,30);pol(1,30);1;1;1;pol(1,30);1;pol(1,-30);pol(1,-30)];
 Defasagem_b11 = [pol(1,60);pol(1,60);pol(1,60);pol(1,60);pol(1,30);pol(1,30);pol(1,30);pol(1,60);pol(1,30);1;1];
+alfa = pol(1,120);
+
 %Resistências de falta
 Rf_a = 0.264/Zb1;
 Rf_b = 0.388/Zb2;
@@ -131,41 +137,87 @@ Rf_c = 0.172/Zb3;
 %Sufixo b1 -> referenciadas a barra 1, pois é a mesma ref. de fase da barra 4.
 If_se4 = Vpre_b1(4)/(Z(4,4)+Rf_a);
 Vpos_se4_b1 = Vpre_b1 - If_se4*Z(:,4);
-fprintf("Curto na barra SE4\n")
-printPolar(Vpos_se4_b1);
+%fprintf("Curto na barra SE4 - Fase A\n")
+%printPolar(Vpos_se4_b1);
+%Correção da defasagem das tensões.
 Vpos_se4_defasado = Vpos_se4_b1 .* Defasagem_b1;
+%Fases b e c das tensões
+Vpos_se4_defasado_b = Vpos_se4_defasado * alfa^2;
+Vpos_se4_defasado_c = Vpos_se4_defasado * alfa;
+fprintf("Curto na barra SE4 - Fase A\n");
+printPolar(Vpos_se4_defasado);
+fprintf("Curto na barra SE4 - Fase B\n");
+printPolar(Vpos_se4_defasado_b);
+fprintf("Curto na barra SE4 - Fase C\n");
+printPolar(Vpos_se4_defasado_c);
 %Cálculo da correntes circunvizinhas à barra 4.
+I_lt02c1 = zeros(3,1);
+I_lt03c1 = zeros(3,1);
+I_lt01c1 = zeros(3,1);
+I_lt01c2 = zeros(3,1);
+I_tr01t1 = zeros(3,1);
+I_tr01t2 = zeros(3,1);
 I_lt02c1_se4 = (Vpos_se4_b1(1) - Vpos_se4_b1(2))/Z1_lt02c1;
 I_lt03c1_se4 = (Vpos_se4_b1(2) - Vpos_se4_b1(4))/Z1_lt03c1;
 I_lt01c1_se4 = (Vpos_se4_b1(3) - Vpos_se4_b1(4))/Z1_lt01c1;
 I_lt01c2_se4 = (Vpos_se4_b1(3) - Vpos_se4_b1(4))/Z1_lt01c2;
 I_tr01t1_se4 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Zps;
 I_tr01t2_se4 = (Vpos_se4_b1(5) - Vpos_se4_b1(4))/Z_tr01t2;
-fprintf("Corrente em lt02c1\n")
+fprintf("Corrente em LT02C1\n");
 printPolar(I_lt02c1_se4*Ib1);
-fprintf("Corrente em lt03c1\n")
+fprintf("Corrente em LT03C1\n")
 printPolar(I_lt03c1_se4*Ib1);
-fprintf("Corrente em lt01c1\n")
+fprintf("Corrente em LT01C1\n")
 printPolar(I_lt01c1_se4*Ib1);
-fprintf("Corrente em lt01c2\n")
+fprintf("Corrente em LT01C2\n")
 printPolar(I_lt01c2_se4*Ib1);
-fprintf("Corrente em tr01t1\n")
+fprintf("Corrente em TR01T1\n")
 printPolar(I_tr01t1_se4*Ib1);
-fprintf("Corrente em tr01t2\n")
+fprintf("Corrente em TR01T2\n")
 printPolar(I_tr01t2_se4*Ib1);
-
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE9.
 If_se9 = Vpre_b9(9)/(Z(9,9)+Rf_b);
 Vpos_se9_b9 = Vpre_b9 - If_se9*Z(:,9);
 Vpos_se9_defasado = Vpos_se9_b9 .* Defasagem_b9;
-fprintf("Curto na barra SE9\n")
+%Fases b e c das tensões
+Vpos_se9_defasado_b = Vpos_se9_defasado * alfa^2;
+Vpos_se9_defasado_c = Vpos_se9_defasado * alfa;
+fprintf("Curto na barra SE9 - Fase A\n");
 printPolar(Vpos_se9_defasado);
+fprintf("Curto na barra SE9 - Fase B\n");
+printPolar(Vpos_se9_defasado_b);
+fprintf("Curto na barra SE9 - Fase C\n");
+printPolar(Vpos_se9_defasado_c);
+%Cálculo da correntes circunvizinhas à barra 4.
+%Corrente em TR02T1
+I_tr02t1 = zeros(3,1);
+I_tr02t1(1) = (Vpos_se9_b9(10) - Vpos_se9_b9(9)) / Z_tr02t1; 
+I_tr02t1(2) = I_tr02t1(1)*alfa^2;
+I_tr02t1(3) = I_tr02t1(1)*alfa;
+fprintf("Corrente em TR02T1\n");
+printPolar(I_tr02t1*Ib2);
 
 %Cálculos relativo ao curto-circuito trifásico na barra da SE11.
 If_se11 = Vpre_b11(11)/(Z(11,11)+Rf_c);
 Vpos_se11_b11 = Vpre_b11 - If_se11*Z(:,11);
 Vpos_se11_defasado = Vpos_se11_b11 .* Defasagem_b11;
-fprintf("Curto na barra SE11\n")
+%Fases b e c das tensões
+Vpos_se11_defasado_b = Vpos_se11_defasado * alfa^2;
+Vpos_se11_defasado_c = Vpos_se11_defasado * alfa;
+fprintf("Curto na barra SE11 - Fase A\n");
 printPolar(Vpos_se11_defasado);
+fprintf("Curto na barra SE11 - Fase B\n");
+printPolar(Vpos_se11_defasado_b);
+fprintf("Curto na barra SE11 - Fase C\n");
+printPolar(Vpos_se11_defasado_c);
+%Cálculo da correntes circunvizinhas à barra 11.
+%Corrente em LT01K1
+I_lt01k1 = zeros(3,1);
+I_lt01k1(1) = (Vpos_se11_b11(10) - Vpos_se11_b11(11)) / Z1_lt01k1;
+I_lt01k1(2) = I_lt01k1(1) * alfa^2;
+I_lt01k1(3) = I_lt01k1(1) * alfa;
+fprintf("Corrente em LT01K1\n");
+printPolar(I_lt01k1*Ib3);
 
+diary off
