@@ -1,11 +1,8 @@
-%Última edição: Ricardo - 2023/10/25 16:21:
+%Última edição: Ricardo - 2023/10/29 20:21:
 clc;
 clear;
-%Exportar saída texto - Retirar do código final;
-diary on;        
-diary('Valores.txt')
-NA = 1;
 
+NA = 1;
 %Bases pu
 Sb = 100e6;
 Vb1 = 230e3;
@@ -193,7 +190,7 @@ printPolar(Vpos_se9_defasado_c);
 %Cálculo da correntes circunvizinhas à barra 9.
 %Corrente em TR02T1
 I_tr02t1 = zeros(3,1);
-I_tr02t1(1) = (Vpos_se9_b9(10) - Vpos_se9_b9(9)) / Z_tr02t1; 
+I_tr02t1(1) = (Vpos_se9_b9(10) - Vpos_se9_b9(9)) / Z_tr02t1;
 I_tr02t1(2) = I_tr02t1(1)*alfa^2;
 I_tr02t1(3) = I_tr02t1(1)*alfa;
 fprintf("\nCorrente em TR02T1\n");
@@ -252,11 +249,24 @@ printPolar(Vpos_se9_defasado_b .* V_bases);
 fprintf("\nCurto na barra SE9 - Fase C - (V)\n");
 printPolar(Vpos_se9_defasado_c .* V_bases);
 
+fprintf("\nCurto na barra SE11 - Fase A - (V)\n");
+printPolar(Vpos_se11_defasado .* V_bases);
+fprintf("\nCurto na barra SE11 - Fase B - (V)\n");
+printPolar(Vpos_se11_defasado_b .* V_bases);
+fprintf("\nCurto na barra SE11 - Fase C - (V)\n");
+printPolar(Vpos_se11_defasado_c .* V_bases);
+
 %Cálculo da impedância do trafo TR02T1 para que If < 8 kA.
 Ifmax = 8e3/Ib3;
 Z_th10_abs = abs(Vpre_b1(10))/Ifmax;
 Z_th10_angulo = acosd(real(Z(9,9))/Z_th10_abs);
 Z_th10 = pol(Z_th10_abs,Z_th10_angulo);
-Z_tr02t1_min = Z_th10 - Z(9,9)
+Z_tr02t1_min = Z_th10 - Z(9,9);
 
-diary off
+%Print correntes de falta;
+fprintf("\nCorrente de falta na barra SE4\n");
+printCorrente(If_se4,Ib1);
+fprintf("\nCorrente de falta na barra SE9\n");
+printCorrente(If_se9,Ib2);
+fprintf("\nCorrente de falta na barra SE11\n");
+printCorrente(If_se11,Ib3);
