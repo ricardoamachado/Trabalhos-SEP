@@ -205,14 +205,15 @@ Vpre_b10 = Vpre_b1*pol(1,-60);
 %Matriz de defasagem relativa à barra 1.
 Defasagem_b1_seq1 = [1;1;1;1;pol(1,-30);pol(1,-30);pol(1,-30);1;pol(1,-30);pol(1,-60);pol(1,-60)];
 Defasagem_b1_seq2 = conj(Defasagem_b1_seq1); 
-Defasagem_b1_seq0 = ones(11,1);
-Defasagem_b1 = [Defasagem_b1_seq0, Defasagem_b1_seq1, Defasagem_b1_seq2];
-Defasagem_b7 = [pol(1,30);pol(1,30);pol(1,30);pol(1,30);1;1;1;pol(1,30);1;pol(1,-30);pol(1,-30)];
+Defasagem_b1 = [ones(11,1), Defasagem_b1_seq1, Defasagem_b1_seq2];
+%Matriz de defasagem relativa à barra 7.
+Defasagem_b7_seq1 = [pol(1,30);pol(1,30);pol(1,30);pol(1,30);1;1;1;pol(1,30);1;pol(1,-30);pol(1,-30)];
+Defasagem_b7_seq2 = conj(Defasagem_b7_seq1);
+Defasagem_b7 = [ones(11,1), Defasagem_b7_seq1, Defasagem_b7_seq2];
 %Matriz de defasagem relativa à barra 10.
 Defasagem_b10_seq1 = [pol(1,60);pol(1,60);pol(1,60);pol(1,60);pol(1,30);pol(1,30);pol(1,30);pol(1,60);pol(1,30);1;1];
 Defasagem_b10_seq2 = conj(Defasagem_b10_seq1); 
-Defasagem_b10_seq0 = ones(11,1);
-Defasagem_b10 = [Defasagem_b10_seq0,Defasagem_b10_seq1,Defasagem_b10_seq2];
+Defasagem_b10 = [ones(11,1),Defasagem_b10_seq1,Defasagem_b10_seq2];
 %Resistências de falta.
 Rf_a = 0.872 / Zb3;
 Rf_b = 0.998 / Zb1;
@@ -271,6 +272,14 @@ fprintf("Fase B - Curto Monofásico SE2\n")
 printPolar(Vpos_b2_abc(:,2))
 fprintf("Fase C - Curto Monofásico SE2\n")
 printPolar(Vpos_b2_abc(:,3))
+%Curto-circuito Bifásico à terra na barra da SE7:
+If_c_a1 = Vpre_b7(7)/(Z1(7,7) + paralelo([Z2(7,7), Z0(7,7) + 3*Rf_c]));
+%Correntes de seq. zero e seq. negativa por divisão de corrente:
+If_c_a0 = -Z2(7,7)/(Z0(7,7) + Z2(7,7) + 3*Rf_c) * If_c_a1;
+If_c_a2 = -(Z0(7,7) + 3*Rf_c)/(Z0(7,7) + Z2(7,7) + 3*Rf_c) * If_c_a1;
+printCorrente(If_c_a1,Ib2);
+printCorrente(If_c_a0,Ib2);
+printCorrente(If_c_a2,Ib2);
 
 %Exportar matriz
 writematrix(num2str(Y0,'%.5f'),'Y0barra.csv')
