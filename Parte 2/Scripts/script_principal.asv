@@ -225,26 +225,27 @@ Rf_c = 0.472 / Zb2;
 %Curto-circuito Monofásico na barra da SE10:
 If_a_1 = Vpre_b10(10)/(Z1(10,10) + Z2(10,10) + Z0(10,10) + 3*Rf_a);
 If_a = 3*If_a_1;
+printCorrente(If_a,Ib3);
 coluna10_Zbarra_012 = [Z0(:,10), Z1(:,10), Z1(:,10)];
 Vpre_b10_012 = [zeros(11,1),Vpre_b10,zeros(11,1)];
 Vpos_b10_012 = Vpre_b10_012 - If_a_1*coluna10_Zbarra_012;
 Vpos_b10_012_defasado = Vpos_b10_012 .* Defasagem_b10;
 fprintf("Seq Zero - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_012_defasado(:,1))
-fprintf("\nSeq Positiva - Curto Monofásico SE10\n")
+fprintf("Seq Positiva - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_012_defasado(:,2))
-fprintf("\nSeq Negativa - Curto Monofásico SE10\n")
+fprintf("Seq Negativa - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_012_defasado(:,3))
 %Obtenção das fases a,b,c.
 Vpos_b10_abc = zeros(size(Vpos_b10_012_defasado));
 for i = 1:size(Vpos_b10_012_defasado, 1)
     Vpos_b10_abc(i, :) =  A * transpose(Vpos_b10_012_defasado(i, :));
 end
-fprintf("\nFase A - Curto Monofásico SE10\n")
+fprintf("Fase A - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_abc(:,1))
-fprintf("\nFase B - Curto Monofásico SE10\n")
+fprintf("Fase B - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_abc(:,2))
-fprintf("\nFase C - Curto Monofásico SE10\n")
+fprintf("Fase C - Curto Monofásico SE10\n")
 printPolar(Vpos_b10_abc(:,3))
 %CORRENTES CIRCUNVIZINHAS - BARRA 10.
 %Corrente LT01K1
@@ -252,10 +253,10 @@ I_lt01k1_a1 = (Vpos_b10_012(10,2) - Vpos_b10_012(11,2))/(Z1_lt01k1);
 I_lt01k1_a2 = (Vpos_b10_012(10,3) - Vpos_b10_012(11,3))/(Z1_lt01k1);
 I_lt01k1_a0 = (Vpos_b10_012(10,1) - Vpos_b10_012(11,1))/(Z0_lt01k1);
 I_lt01k1_a012 = [I_lt01k1_a0;I_lt01k1_a1;I_lt01k1_a2];
-fprintf("\nCorrente LT01K1 - 012\n")
+fprintf("Corrente LT01K1 - 012\n")
 printCorrente(I_lt01k1_a012,Ib3)
 I_lt01k1_abc = A * I_lt01k1_a012;
-fprintf("\nCorrente LT01K1 - abc\n")
+fprintf("Corrente LT01K1 - abc\n")
 printCorrente(I_lt01k1_abc,Ib3)
 %Corrente TR02T1
 I_tr02t1_a1 = (Vpos_b10_012(9,2) - Vpos_b10_012(10,2))/(Z_tr02t1);
@@ -263,9 +264,9 @@ I_tr02t1_a2 = (Vpos_b10_012(9,3) - Vpos_b10_012(10,3))/(Z_tr02t1);
 I_tr02t1_a0 = (0 - Vpos_b10_012(10,1))/(Z_tr02t1);
 I_tr02t1_a012 = [I_tr02t1_a0;I_tr02t1_a1;I_tr02t1_a2];
 I_tr02t1_abc = A* I_tr02t1_a012;
-fprintf("\nCorrente TR02T1 - 012\n")
+fprintf("Corrente TR02T1 - 012\n")
 printCorrente(I_tr02t1_a012,Ib3)
-fprintf("\nCorrente TR02T1 - abc\n")
+fprintf("Corrente TR02T1 - abc\n")
 printCorrente(I_tr02t1_abc,Ib3)
 
 
@@ -298,22 +299,10 @@ printPolar(Vpos_b2_abc(:,3))
 I_lt03c1_a1 = (Vpos_b2_012(4,2) - Vpos_b2_012(2,2))/Z1_lt03c1;
 I_lt03c1_a2 = (Vpos_b2_012(4,3) - Vpos_b2_012(2,3))/Z1_lt03c1;
 I_lt03c1_a0 = (Vpos_b2_012(4,1) - Vpos_b2_012(2,1))/Z0_lt03c1;
+
 I_lt03c1_a012 = [I_lt03c1_a0;I_lt03c1_a1;I_lt03c1_a2];
 I_lt01c1_abc = A*I_lt03c1_a012;
-fprintf("\nCorrente LT03C1 - 012\n")
-printCorrente012(I_lt03c1_a012,Ib1);
-fprintf("\nCorrente LLT03C1 - ABC\n")
-printCorrente(I_lt01c1_abc,Ib1);
 %Corrente LT02C1/LT02C2.
-I_lt02cx_a1 = (Vpos_b2_012(1,2) - Vpos_b2_012(2,2))/Z1_lt02c1;
-I_lt02cx_a0 = (Vpos_b2_012(1,1) - Vpos_b2_012(2,1))/Z0_lt02c1;
-I_lt02cx_a2 = (Vpos_b2_012(1,3) - Vpos_b2_012(2,3))/Z1_lt02c1;
-I_lt02cx_a012 = [I_lt02cx_a0;I_lt02cx_a1;I_lt02cx_a2];
-I_lt02cx_abc = A * I_lt02cx_a012;
-fprintf("\nCorrente LT02C1/LT02C2 - 012\n")
-printCorrente012(I_lt02cx_a012,Ib1);
-fprintf("\nCorrente LT02C1/LT02C2 - ABC\n")
-printCorrente(I_lt02cx_abc,Ib1);
 
 %Curto-circuito Bifásico à terra na barra da SE7:
 If_c_a1 = Vpre_b7(7)/(Z1(7,7) + paralelo([Z2(7,7), Z0(7,7) + 3*Rf_c]));
