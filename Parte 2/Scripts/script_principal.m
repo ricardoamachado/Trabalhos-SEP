@@ -366,4 +366,63 @@ printCorrente(I_lt03j1_abc,Ib2);
 
 diary off;
 
-%Condutor aberto 
+%Um Condutor aberto - LT04J1 (#6 - #9)
+Z0_th69 = Z0(6,6) + Z0(9,9) - 2*Z0(6,9);
+Z1_th69 = Z1(6,6) + Z1(9,9) - 2*Z1(6,9);
+I_lt04j1_pre = (Vpre_b7(6) - Vpre_b7(9))/(Z1_lt04j1);
+Z0_69 = -(Z0_lt04j1)^2/(Z0_th69 - Z0_lt04j1);
+Z1_69 = -(Z1_lt04j1)^2/(Z1_th69 - Z1_lt04j1);
+Z2_69 = Z1_69;
+Ia1_69 = I_lt04j1_pre * Z1_69/(Z1_69 + paralelo([Z2_69, Z0_69]));
+Ia2_69 = -Ia1_69 *(Z0_69)/(Z0_69 + Z2_69);
+Ia0_69 = -Ia1_69 *(Z2_69)/(Z0_69 + Z2_69);
+V_69 = Ia1_69 *(Z0_69 * Z2_69)/(Z0_69 + Z2_69) * ones(1,3); 
+deltaV_69 = [(Z0(:,6) - Z0(:,9))/(Z0_lt04j1), (Z1(:,6) - Z1(:,9))/(Z1_lt04j1), (Z2(:,6) - Z2(:,9))/(Z1_lt04j1)] .* V_69;
+V_69_pos = [zeros(11,1),Vpre_b7,zeros(11,1)] + deltaV_69;
+V_69_pos_defasado = V_69_pos .* Defasagem_b7;
+V_69_pos_abc = zeros(size(V_69_pos_defasado));
+for i = 1:size(V_69_pos_defasado, 1)
+    V_69_pos_abc(i, :) =  A * transpose(V_69_pos_defasado(i, :));
+end
+fprintf("\nSeq Zero - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,1))
+fprintf("\nSeq Positiva - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,2))
+fprintf("\nSeq Negativa - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,3))
+fprintf("\nFase A - Condutores abertos - LT04J1\n")
+printPolar(V_69_pos_abc(:,1))
+fprintf("\nFase B - Condutores abertos - LT04J1\n")
+printPolar(V_69_pos_abc(:,2))
+fprintf("\nFase C - Condutores abertos - LT04J1\n")
+printPolar(V_69_pos_abc(:,3))
+
+%Dois Condutores abertos - LT01J1 (#5 - #9)
+Z0_th59 = Z0(5,5) + Z0(9,9) - 2*Z0(5,9);
+Z0_59 = -(Z0_lt01j1)^2/(Z0_th59 - Z0_lt01j1);
+%Lembrando que Z1_th59 == Z2_th59 e Z1_59 == Z2_59
+Z1_th59 = Z1(5,5) + Z1(9,9) - 2*Z1(5,9);
+Z1_59 = -(Z1_lt01j1)^2/(Z1_th59 - Z1_lt01j1);
+I_lt01j1_pre = (Vpre_b7(5) - Vpre_b7(9))/(Z1_lt01j1);
+Ia_59 = I_lt01j1_pre * (Z1_59/(Z0_59 + 2*Z1_59));
+V_59 = [-Z0_59*Ia_59, Ia_59*(Z0_59 + Z1_59), -Z1_59*Ia_59];
+deltaV_59 = [(Z0(:,5) - Z0(:,9))/(Z0_lt01j1), (Z1(:,5) - Z1(:,9))/(Z1_lt01j1), (Z2(:,5) - Z2(:,9))/(Z1_lt01j1)] .* V_59;
+V_59_pos = [zeros(11,1),Vpre_b7,zeros(11,1)] + deltaV_59;
+V_59_pos_defasado = V_59_pos .* Defasagem_b7;
+%Cálculo das fases a,b,c das tensões de pós-falta.
+V_59_pos_abc = zeros(size(V_59_pos_defasado));
+for i = 1:size(V_59_pos_defasado, 1)
+    V_59_pos_abc(i, :) =  A * transpose(V_59_pos_defasado(i, :));
+end
+fprintf("\nSeq Zero - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,1))
+fprintf("\nSeq Positiva - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,2))
+fprintf("\nSeq Negativa - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,3))
+fprintf("\nFase A - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,1))
+fprintf("\nFase B - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,2))
+fprintf("\nFase C - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,3))
