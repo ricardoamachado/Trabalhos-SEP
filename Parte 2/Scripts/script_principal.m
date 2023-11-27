@@ -1,7 +1,7 @@
 %Última edição: Ricardo - 2023/11/20 14:00:
 clc;
 clear;
-diary dados.txt
+diary dades.txt
 NA = 1;
 %Bases pu
 Sb = 100e6;
@@ -281,8 +281,8 @@ printPolar(Vpos_b2_012_defasado(:,1))
 fprintf("\nSeq Positiva - Curto Bifásico SE2\n")
 printPolar(Vpos_b2_012_defasado(:,2))
 fprintf("\nSeq Negativa - Curto Bifásico SE2\n")
-%Cálculo das fases a,b,c das tensões de pós-falta.
 printPolar(Vpos_b2_012_defasado(:,3))
+%Cálculo das fases a,b,c das tensões de pós-falta.
 Vpos_b2_abc = zeros(size(Vpos_b2_012_defasado));
 for i = 1:size(Vpos_b2_012_defasado, 1)
     Vpos_b2_abc(i, :) =  A * transpose(Vpos_b2_012_defasado(i, :));
@@ -364,7 +364,7 @@ printCorrente012(I_lt03j1_a012,Ib2);
 fprintf("\nCorrente LT03J1 - ABC\n")
 printCorrente(I_lt03j1_abc,Ib2);
 
-diary off;
+
 
 %Um Condutor aberto - LT04J1 (#6 - #9)
 Z0_th69 = Z0(6,6) + Z0(9,9) - 2*Z0(6,9);
@@ -390,11 +390,11 @@ fprintf("\nSeq Positiva - Condutor aberto - LT04J1\n")
 printPolar(V_69_pos_defasado(:,2))
 fprintf("\nSeq Negativa - Condutor aberto - LT04J1\n")
 printPolar(V_69_pos_defasado(:,3))
-fprintf("\nFase A - Condutores abertos - LT04J1\n")
+fprintf("\nFase A - Condutor aberto - LT04J1\n")
 printPolar(V_69_pos_abc(:,1))
-fprintf("\nFase B - Condutores abertos - LT04J1\n")
+fprintf("\nFase B - Condutor aberto - LT04J1\n")
 printPolar(V_69_pos_abc(:,2))
-fprintf("\nFase C - Condutores abertos - LT04J1\n")
+fprintf("\nFase C - Condutor aberto - LT04J1\n")
 printPolar(V_69_pos_abc(:,3))
 
 %Dois Condutores abertos - LT01J1 (#5 - #9)
@@ -426,3 +426,77 @@ fprintf("\nFase B - Condutores abertos - LT01J1\n")
 printPolar(V_59_pos_abc(:,2))
 fprintf("\nFase C - Condutores abertos - LT01J1\n")
 printPolar(V_59_pos_abc(:,3))
+
+%Tensões das barras em Volts.
+V_bases = [Vb1; Vb1; Vb1; Vb1; Vb2; Vb2; Vb2; Vb1; Vb2; Vb3; Vb3];
+fprintf("\n Valores das tensões em Volts.\n")
+fprintf("Seq Zero - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_012_defasado(:,1) .* V_bases)
+fprintf("\nSeq Positiva - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_012_defasado(:,2) .* V_bases)
+fprintf("\nSeq Negativa - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_012_defasado(:,3) .* V_bases)
+
+fprintf("\nFase A - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_abc(:,1) .* V_bases)
+fprintf("\nFase B - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_abc(:,2) .* V_bases)
+fprintf("\nFase C - Curto Monofásico SE10\n")
+printPolar(Vpos_b10_abc(:,3) .* V_bases)
+
+
+fprintf("\nSeq Zero - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_012_defasado(:,1) .* V_bases)
+fprintf("\nSeq Positiva - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_012_defasado(:,2) .* V_bases)
+fprintf("\nSeq Negativa - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_012_defasado(:,3) .* V_bases)
+
+fprintf("\nFase A - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_abc(:,1) .* V_bases)
+fprintf("\nFase B - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_abc(:,2) .* V_bases)
+fprintf("\nFase C - Curto Bifásico SE2\n")
+printPolar(Vpos_b2_abc(:,3) .* V_bases)
+
+
+fprintf("\nSeq Zero - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_012_defasado(:,1) .* V_bases)
+fprintf("\nSeq Positiva - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_012_defasado(:,2) .* V_bases)
+fprintf("\nSeq Negativa - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_012_defasado(:,3) .* V_bases)
+
+fprintf("\nFase A - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_abc(:,1) .* V_bases)
+fprintf("\nFase B - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_abc(:,2) .* V_bases)
+fprintf("\nFase C - Curto Bifásico SE7\n")
+printPolar(Vpos_b7_abc(:,3) .* V_bases)
+
+fprintf("\nSeq Zero - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,1) .* V_bases)
+fprintf("\nSeq Positiva - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,2) .* V_bases)
+fprintf("\nSeq Negativa - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_defasado(:,3) .* V_bases)
+fprintf("\nFase A - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_abc(:,1) .* V_bases)
+fprintf("\nFase B - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_abc(:,2) .* V_bases)
+fprintf("\nFase C - Condutor aberto - LT04J1\n")
+printPolar(V_69_pos_abc(:,3) .* V_bases)
+
+fprintf("\nSeq Zero - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,1) .* V_bases)
+fprintf("\nSeq Positiva - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,2) .* V_bases)
+fprintf("\nSeq Negativa - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_defasado(:,3) .* V_bases)
+fprintf("\nFase A - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,1) .* V_bases)
+fprintf("\nFase B - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,2) .* V_bases)
+fprintf("\nFase C - Condutores abertos - LT01J1\n")
+printPolar(V_59_pos_abc(:,3) .* V_bases)
+diary off;
