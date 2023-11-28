@@ -1,7 +1,7 @@
-%Última edição: Ricardo - 2023/11/20 14:00:
+%Última edição: Ricardo - 2023/11/28 10:15:
 clc;
 clear;
-diary dades.txt
+diary dadesv.txt
 NA = 1;
 %Bases pu
 Sb = 100e6;
@@ -253,7 +253,7 @@ I_lt01k1_a2 = (Vpos_b10_012(10,3) - Vpos_b10_012(11,3))/(Z1_lt01k1);
 I_lt01k1_a0 = (Vpos_b10_012(10,1) - Vpos_b10_012(11,1))/(Z0_lt01k1);
 I_lt01k1_a012 = [I_lt01k1_a0;I_lt01k1_a1;I_lt01k1_a2];
 fprintf("\nCorrente LT01K1 - 012\n")
-printCorrente(I_lt01k1_a012,Ib3)
+printCorrente012(I_lt01k1_a012,Ib3)
 I_lt01k1_abc = A * I_lt01k1_a012;
 fprintf("\nCorrente LT01K1 - abc\n")
 printCorrente(I_lt01k1_abc,Ib3)
@@ -264,7 +264,7 @@ I_tr02t1_a0 = (0 - Vpos_b10_012(10,1))/(Z_tr02t1);
 I_tr02t1_a012 = [I_tr02t1_a0;I_tr02t1_a1;I_tr02t1_a2];
 I_tr02t1_abc = A* I_tr02t1_a012;
 fprintf("\nCorrente TR02T1 - 012\n")
-printCorrente(I_tr02t1_a012,Ib3)
+printCorrente012(I_tr02t1_a012,Ib3)
 fprintf("\nCorrente TR02T1 - abc\n")
 printCorrente(I_tr02t1_abc,Ib3)
 
@@ -302,7 +302,7 @@ I_lt03c1_a012 = [I_lt03c1_a0;I_lt03c1_a1;I_lt03c1_a2];
 I_lt01c1_abc = A*I_lt03c1_a012;
 fprintf("\nCorrente LT03C1 - 012\n")
 printCorrente012(I_lt03c1_a012,Ib1);
-fprintf("\nCorrente LLT03C1 - ABC\n")
+fprintf("\nCorrente LT03C1 - ABC\n")
 printCorrente(I_lt01c1_abc,Ib1);
 %Corrente LT02C1/LT02C2.
 I_lt02cx_a1 = (Vpos_b2_012(1,2) - Vpos_b2_012(2,2))/Z1_lt02c1;
@@ -500,3 +500,12 @@ printPolar(V_59_pos_abc(:,2) .* V_bases)
 fprintf("\nFase C - Condutores abertos - LT01J1\n")
 printPolar(V_59_pos_abc(:,3) .* V_bases)
 diary off;
+
+%Especificação do resistor de aterramento.
+Zg_66 = Z1(6,6) + Z2(6,6) + Z0(6,6);
+imag_Zg_66_novo = imag(Z1(6,6) + Z2(6,6) + Z0(6,6));
+If_novo = 40/Ib2;
+abs_Zg_66_novo = (3*abs(Vpre_b7(6)))/If_novo;
+real_Zg_66_novo = sqrt(abs_Zg_66_novo^2 - imag_Zg_66_novo^2);
+R_aterramento = (real_Zg_66_novo - real(Zg_66))/3;
+
