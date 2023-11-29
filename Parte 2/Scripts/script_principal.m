@@ -1,7 +1,6 @@
 %Última edição: Ricardo - 2023/11/28 10:15:
 clc;
 clear;
-diary dadesv.txt
 NA = 1;
 %Bases pu
 Sb = 100e6;
@@ -204,7 +203,7 @@ Vpre_b10 = Vpre_b1*pol(1,-60);
 %Defasar as tensões para as referências corretas.
 %Matriz de defasagem relativa à barra 1.
 Defasagem_b1_seq1 = [1;1;1;1;pol(1,-30);pol(1,-30);pol(1,-30);1;pol(1,-30);pol(1,-60);pol(1,-60)];
-Defasagem_b1_seq2 = conj(Defasagem_b1_seq1); 
+Defasagem_b1_seq2 = conj(Defasagem_b1_seq1);
 Defasagem_b1 = [ones(11,1), Defasagem_b1_seq1, Defasagem_b1_seq2];
 %Matriz de defasagem relativa à barra 7.
 Defasagem_b7_seq1 = [pol(1,30);pol(1,30);pol(1,30);pol(1,30);1;1;1;pol(1,30);1;pol(1,-30);pol(1,-30)];
@@ -212,7 +211,7 @@ Defasagem_b7_seq2 = conj(Defasagem_b7_seq1);
 Defasagem_b7 = [ones(11,1), Defasagem_b7_seq1, Defasagem_b7_seq2];
 %Matriz de defasagem relativa à barra 10.
 Defasagem_b10_seq1 = [pol(1,60);pol(1,60);pol(1,60);pol(1,60);pol(1,30);pol(1,30);pol(1,30);pol(1,60);pol(1,30);1;1];
-Defasagem_b10_seq2 = conj(Defasagem_b10_seq1); 
+Defasagem_b10_seq2 = conj(Defasagem_b10_seq1);
 Defasagem_b10 = [ones(11,1),Defasagem_b10_seq1,Defasagem_b10_seq2];
 %Resistências de falta.
 Rf_a = 0.872 / Zb3;
@@ -499,7 +498,6 @@ fprintf("\nFase B - Condutores abertos - LT01J1\n")
 printPolar(V_59_pos_abc(:,2) .* V_bases)
 fprintf("\nFase C - Condutores abertos - LT01J1\n")
 printPolar(V_59_pos_abc(:,3) .* V_bases)
-diary off;
 
 %Especificação do resistor de aterramento.
 Zg_66 = Z1(6,6) + Z2(6,6) + Z0(6,6);
