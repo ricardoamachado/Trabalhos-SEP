@@ -375,7 +375,7 @@ Z2_69 = Z1_69;
 Ia1_69 = I_lt04j1_pre * Z1_69/(Z1_69 + paralelo([Z2_69, Z0_69]));
 Ia2_69 = -Ia1_69 *(Z0_69)/(Z0_69 + Z2_69);
 Ia0_69 = -Ia1_69 *(Z2_69)/(Z0_69 + Z2_69);
-V_69 = Ia1_69 *(Z0_69 * Z2_69)/(Z0_69 + Z2_69) * ones(1,3); 
+V_69 = Ia1_69 *(Z0_69 * Z2_69)/(Z0_69 + Z2_69) * ones(1,3);
 deltaV_69 = [(Z0(:,6) - Z0(:,9))/(Z0_lt04j1), (Z1(:,6) - Z1(:,9))/(Z1_lt04j1), (Z2(:,6) - Z2(:,9))/(Z1_lt04j1)] .* V_69;
 V_69_pos = [zeros(11,1),Vpre_b7,zeros(11,1)] + deltaV_69;
 V_69_pos_defasado = V_69_pos .* Defasagem_b7;
@@ -506,4 +506,4 @@ If_novo = 40/Ib2;
 abs_Zg_66_novo = (3*abs(Vpre_b7(6)))/If_novo;
 real_Zg_66_novo = sqrt(abs_Zg_66_novo^2 - imag_Zg_66_novo^2);
 R_aterramento = (real_Zg_66_novo - real(Zg_66))/3;
-
+Pot_dissipada = Sb* If_novo^2 * R_aterramento;
